@@ -15,50 +15,7 @@ public class PassThePigs {
         setup();
 
         while (playing) {
-            int handScore = 0; // current hand score for current player's turn
-
-            for (int i = 0; i < players.size(); i++) {
-                // pre-round
-
-                announceScores(handScore);
-
-                ArrayList<Integer> otherScores = new ArrayList<Integer>();
-                populateOtherScores(otherScores, i);
-
-                playing = checkWinCondition(handScore + scores.get(i));
-
-                if (!playing) {
-                    scores.set(i, scores.get(i) + handScore);
-                    break;
-                }
-
-                if (handScore == 0) {
-                    System.out.println();
-                    System.out.println("--------------------------------------");
-                    System.out.println(players.get(i).getName() + ", You're Up!");
-                }
-
-                // round
-                if (players.get(i).wantsToRoll(scores.get(i), handScore, otherScores, winningScore)) {
-
-                    int roundScore = rollPigs();
-
-                    if (roundScore != -1) {
-                        i--; // gives another chance to player
-                        handScore += roundScore;
-                    } else {
-                        handScore = 0;
-                    }
-
-                } else {
-                    scores.set(i, scores.get(i) + handScore);
-                    handScore = 0; // resets handscore for next person
-                    System.out.println();
-                    System.out.println(players.get(i).getName() + " passes!");
-                }
-
-            }
-
+            game();
         }
 
         goodGame(); // When loop runs out, this plays.
@@ -75,6 +32,71 @@ public class PassThePigs {
         }
 
         System.out.println("Let's play Pass The Pigs!");
+    }
+
+    public static void game() {
+        int handScore = 0; // current hand score for current player's turn
+
+        for (int i = 0; i < players.size(); i++) {
+            // pre-round
+
+            announceScores(handScore);
+
+            ArrayList<Integer> otherScores = new ArrayList<Integer>();
+            if (!preRound(handScore, otherScores, i)) {
+                break; // breaks the for loop to return and end the game loop.
+            }
+
+            // round
+            int iterationScore = round(handScore, i, otherScores);
+
+            if (iterationScore > 0) {
+                handScore = iterationScore;
+                i--;
+            } else {
+                handScore = 0;
+            }
+        }
+    }
+
+    public static boolean preRound(int handScore, ArrayList<Integer> otherScores, int iteration) {
+        populateOtherScores(otherScores, iteration);
+
+        playing = checkWinCondition(handScore + scores.get(iteration));
+
+        if (!playing) {
+            scores.set(iteration, scores.get(iteration) + handScore);
+            return false;
+        }
+
+        if (handScore == 0) {
+            System.out.println();
+            System.out.println("--------------------------------------");
+            System.out.println(players.get(iteration).getName() + ", You're Up!");
+        }
+
+        return true;
+    }
+
+    public static int round(int handScore, int iteration, ArrayList<Integer> otherScores) {
+        if (players.get(iteration).wantsToRoll(scores.get(iteration), handScore, otherScores, winningScore)) {
+
+            int roundScore = rollPigs();
+
+            if (roundScore != -1) {
+                handScore += roundScore;
+            } else {
+                handScore = 0;
+            }
+
+        } else {
+            scores.set(iteration, scores.get(iteration) + handScore);
+            handScore = 0; // resets handscore for next person
+            System.out.println();
+            System.out.println(players.get(iteration).getName() + " passes!");
+        }
+
+        return handScore;
     }
 
     public static void announceScores(int handScore) {
