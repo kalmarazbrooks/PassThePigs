@@ -19,7 +19,7 @@ public class PassThePigs {
             for (int i = 0; i < players.size(); i++) {
                 // pre-round
 
-                announceScores();
+                announceScores(handScore);
 
                 ArrayList<Integer> otherScores = new ArrayList<Integer>();
                 populateOtherScores(otherScores, i);
@@ -33,12 +33,14 @@ public class PassThePigs {
 
                 if (handScore == 0) {
                     System.out.println();
+                    System.out.println("--------------------------------------");
                     System.out.println(players.get(i).getName() + ", You're Up!");
                 }
 
                 // round
 
                 if (players.get(i).wantsToRoll(scores.get(i), handScore, otherScores, winningScore)) {
+
                     int roundScore = rollPigs();
 
                     if (roundScore != -1) {
@@ -51,7 +53,10 @@ public class PassThePigs {
                 } else {
                     scores.set(i, scores.get(i) + handScore);
                     handScore = 0; // resets handscore for next person
+                    System.out.println();
+                    System.out.println(players.get(i).getName() + " passes!");
                 }
+
             }
 
         }
@@ -61,19 +66,20 @@ public class PassThePigs {
 
     public static void setup() {
         players.add(new GetAheadBot("GetAhead"));
-        players.add(new GetAheadBot("GetAhead2"));
+        players.add(new RiskItAllBot("RiskIt"));
+        players.add(new OneAndDoneBot("OneAndDone"));
 
         for (Player player : players) {
             scores.add(0);
         }
     }
 
-    public static void announceScores() {
+    public static void announceScores(int handScore) {
         System.out.println();
         for (int i = 0; i < players.size(); i++) {
             System.out.print(players.get(i).getName() + "'s Score: " + scores.get(i) + " | ");
         }
-        System.out.println();
+        System.out.println("Hand Score: " + handScore);
     }
 
     public static void populateOtherScores(ArrayList<Integer> otherScores, int playerIndex) {
@@ -119,9 +125,13 @@ public class PassThePigs {
 
     public static void goodGame(){
         System.out.println();
+        System.out.println("---------------------------------------");
+        System.out.println();
+
         System.out.println("Great job to all the players!");
 
         for (int i = 0; i < players.size(); i++) {
+            System.out.println();
             System.out.println(players.get(i).name + "'s Score: " + scores.get(i));
         }
     }
