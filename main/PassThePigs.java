@@ -11,7 +11,7 @@ public class PassThePigs {
     static boolean playing = true;
     
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        setup();
 
         while (playing) {
             int handScore = 0;
@@ -52,6 +52,14 @@ public class PassThePigs {
         }
     }
 
+    public static void setup() {
+        players.add(new Human("Me"));
+
+        for (int i = 0; i < players.size(); i++) {
+            scores.add(0);
+        }
+    }
+
     public static int roll() {
         int type;
         double roll = Math.random() * 100;
@@ -74,4 +82,5 @@ public class PassThePigs {
         return type;
     }
 
+    
 }
