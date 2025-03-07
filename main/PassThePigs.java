@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 
 public class PassThePigs {
@@ -61,8 +60,8 @@ public class PassThePigs {
     }
 
     public static void setup() {
-        players.add(new Human("Me"));
-        players.add(new Human("You"));
+        players.add(new GetAheadBot("GetAhead"));
+        players.add(new GetAheadBot("GetAhead2"));
 
         for (Player player : players) {
             scores.add(0);
