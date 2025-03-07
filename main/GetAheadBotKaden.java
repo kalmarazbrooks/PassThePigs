@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-class GetAheadBotKaden extends Bot {
+class GetAheadBotKaden extends BotKaden {
 
     public GetAheadBotKaden(String name) {
         super(name);

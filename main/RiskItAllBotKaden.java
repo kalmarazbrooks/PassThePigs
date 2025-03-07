@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-class RiskItAllBotKaden extends Bot {
+class RiskItAllBotKaden extends BotKaden {
 
     public RiskItAllBotKaden(String name) {
         super(name);

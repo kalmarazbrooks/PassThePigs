@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
-class Bot extends Player {
+class BotKaden extends Player {
     
-    public Bot(String name) {
+    public BotKaden(String name) {
         super(name);
     }
     public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
