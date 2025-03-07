@@ -20,6 +20,8 @@ public class PassThePigs {
             for (int i = 0; i < players.size(); i++) {
                 // pre-round
 
+                announceScores();
+
                 ArrayList<Integer> otherScores = new ArrayList<Integer>();
                 populateOtherScores(otherScores, i);
 
@@ -62,9 +64,17 @@ public class PassThePigs {
         players.add(new Human("Me"));
         players.add(new Human("You"));
 
-        for (int i = 0; i < players.size(); i++) {
+        for (Player player : players) {
             scores.add(0);
         }
+    }
+
+    public static void announceScores() {
+        System.out.println();
+        for (int i = 0; i < players.size(); i++) {
+            System.out.print(players.get(i).getName() + "'s Score: " + scores.get(i) + " | ");
+        }
+        System.out.println();
     }
 
     public static void populateOtherScores(ArrayList<Integer> otherScores, int playerIndex) {
@@ -86,7 +96,7 @@ public class PassThePigs {
             score += (int) scoreMatrix[firstRoll][1];
             System.out.println("Wow, a double " + scoreMatrix[firstRoll][2]);
         } else if ((firstRoll == 0 && secondRoll == 1) || (firstRoll == 1 && secondRoll == 0)) {
-            score = -1;y
+            score = -1;
             System.out.println("Pig Out!");
         } else {
             if (firstRoll > secondRoll) {
