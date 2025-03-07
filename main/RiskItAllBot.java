@@ -12,7 +12,7 @@ class RiskItAllBot extends Bot {
         }
 
         for (Integer score : otherScores) {
-            if (score > myScore) {
+            if (score > handScore) {
                 return true;
             }
         }

@@ -61,13 +61,14 @@ public class PassThePigs {
 
         }
 
-        goodGame();
+        goodGame(); // When loop runs out, this plays.
     }
 
-    public static void setup() {
+    public static void setup() { // Hard Code new bots + players
         players.add(new GetAheadBot("GetAhead"));
         players.add(new RiskItAllBot("RiskIt"));
         players.add(new OneAndDoneBot("OneAndDone"));
+        players.add(new Human("You"));
 
         for (Player player : players) {
             scores.add(0);
