@@ -18,7 +18,7 @@ public class PassThePigs {
             game();
         }
 
-        goodGame(); // When loop runs out, this plays.
+        goodGame(); // When game ends, this plays.
     }
 
     public static void setup() { // Hard Code new bots + players
@@ -122,17 +122,17 @@ public class PassThePigs {
         int score = 0;
         System.out.println(); // creates a space for new stats.
 
-        if (firstRoll == secondRoll) {
+        if (firstRoll == secondRoll) { // Double!
             score += (int) scoreMatrix[firstRoll][1];
             System.out.println("Wow, a double " + scoreMatrix[firstRoll][2]);
-        } else if ((firstRoll == 0 && secondRoll == 1) || (firstRoll == 1 && secondRoll == 0)) {
+        } else if ((firstRoll == 0 && secondRoll == 1) || (firstRoll == 1 && secondRoll == 0)) { // Uh oh! Pig Out!
             score = -1;
             System.out.println("Pig Out!");
         } else {
-            if (firstRoll > secondRoll) {
+            if (firstRoll > secondRoll) { // First pig scores better than second pig
                 score += (int) scoreMatrix[firstRoll][0];
                 System.out.println(scoreMatrix[firstRoll][2]);
-            } else {
+            } else { // Second pig scores better than first pig
                 score += (int) scoreMatrix[secondRoll][0];
                 System.out.println(scoreMatrix[secondRoll][2]);
             }
@@ -162,7 +162,7 @@ public class PassThePigs {
         }
     }
 
-    public static int roll() {
+    public static int roll() { // See scoreMatrix for more information on points.
         int type;
         double roll = Math.random() * 100;
 
