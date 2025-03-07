@@ -73,6 +73,8 @@ public class PassThePigs {
         for (Player player : players) {
             scores.add(0);
         }
+
+        System.out.println("Let's play Pass The Pigs!");
     }
 
     public static void announceScores(int handScore) {
