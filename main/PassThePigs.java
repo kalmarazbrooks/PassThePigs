@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class PassThePigs {
@@ -5,44 +6,47 @@ public class PassThePigs {
     static ArrayList<Player> players = new ArrayList<Player>();
     static ArrayList<Integer> scores = new ArrayList<Integer>();
 
-    static int[][] scoreMatrix = {{1, 1}, {1, 1}, {5, 20}, {5, 20}, {10, 40},{15, 60}} ;
+    static Object[][] scoreMatrix = {{1, 1, "Dot!"}, {1, 1, "No Dot!"}, {5, 20, "Razorback!"}, {5, 20, "Trotter!"}, {10, 40, "Snouter!"}, {15, 60, "Leaning Jowler!"}};
 
     static int winningScore = 100;
     static boolean playing = true;
-    
+
     public static void main(String[] args) {
         setup();
 
         while (playing) {
-            int handScore = 0;
+            int handScore = 0; // current hand score for current player's turn
 
             for (int i = 0; i < players.size(); i++) {
-                ArrayList<Integer> otherScores = new ArrayList<Integer>();
+                // pre-round
 
-                for (int s = 0; s < scores.size(); s++) {
-                    if (s != i) {
-                        otherScores.add(scores.get(s));
-                    }
+                ArrayList<Integer> otherScores = new ArrayList<Integer>();
+                populateOtherScores(otherScores, i);
+
+                playing = checkWinCondition(handScore + scores.get(i));
+
+                if (!playing) {
+                    scores.set(i, scores.get(i) + handScore);
+                    break;
                 }
 
-                if (players.get(i).wantsToRoll(scores.get(i), handScore, otherScores, winningScore)) {
-                    int firstRoll = roll();
-                    int secondRoll = roll();
+                if (handScore == 0) {
+                    System.out.println();
+                    System.out.println(players.get(i).getName() + ", You're Up!");
+                }
 
-                    if (firstRoll == secondRoll) {
-                        handScore += scoreMatrix[firstRoll][2];
+                // round
+
+                if (players.get(i).wantsToRoll(scores.get(i), handScore, otherScores, winningScore)) {
+                    int roundScore = rollPigs();
+
+                    if (roundScore != -1) {
                         i--; // gives another chance to player
-                    } else if ((firstRoll == 1 && secondRoll == 2) || (firstRoll == 2 && secondRoll == 1)) {
-                        handScore = 0;
-                        System.out.println("Pig Out!");
+                        handScore += roundScore;
                     } else {
-                        if (firstRoll > secondRoll) {
-                            handScore += scoreMatrix[firstRoll][0];
-                        } else {
-                            handScore += scoreMatrix[secondRoll][0];
-                        }
-                        i--; // gives another chance to player
+                        handScore = 0;
                     }
+
                 } else {
                     scores.set(i, scores.get(i) + handScore);
                     handScore = 0; // resets handscore for next person
@@ -50,20 +54,72 @@ public class PassThePigs {
             }
 
         }
+
+        goodGame();
     }
 
     public static void setup() {
         players.add(new Human("Me"));
+        players.add(new Human("You"));
 
         for (int i = 0; i < players.size(); i++) {
             scores.add(0);
         }
     }
 
+    public static void populateOtherScores(ArrayList<Integer> otherScores, int playerIndex) {
+        for (int s = 0; s < scores.size(); s++) {
+            if (s != playerIndex) {
+                otherScores.add(scores.get(s));
+            }
+        }
+    }
+
+    public static int rollPigs() {
+        int firstRoll = roll();
+        int secondRoll = roll();
+
+        int score = 0;
+        System.out.println(); // creates a space for new stats.
+
+        if (firstRoll == secondRoll) {
+            score += (int) scoreMatrix[firstRoll][1];
+            System.out.println("Wow, a double " + scoreMatrix[firstRoll][2]);
+        } else if ((firstRoll == 0 && secondRoll == 1) || (firstRoll == 1 && secondRoll == 0)) {
+            score = -1;y
+            System.out.println("Pig Out!");
+        } else {
+            if (firstRoll > secondRoll) {
+                score += (int) scoreMatrix[firstRoll][0];
+                System.out.println(scoreMatrix[firstRoll][2]);
+            } else {
+                score += (int) scoreMatrix[secondRoll][0];
+                System.out.println(scoreMatrix[secondRoll][2]);
+            }
+        }
+
+        return score;
+    }
+    public static boolean checkWinCondition(int score) {
+        if (score >= winningScore) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void goodGame(){
+        System.out.println();
+        System.out.println("Great job to all the players!");
+
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println(players.get(i).name + "'s Score: " + scores.get(i));
+        }
+    }
+
     public static int roll() {
         int type;
         double roll = Math.random() * 100;
-
 
         if (roll < 34.9) {
             type = 0;
@@ -82,5 +138,4 @@ public class PassThePigs {
         return type;
     }
 
-    
 }
