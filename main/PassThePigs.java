@@ -17,6 +17,13 @@ public class PassThePigs {
             int handScore = 0;
 
             for (int i = 0; i < players.size(); i++) {
+                ArrayList<Integer> otherScores = new ArrayList<Integer>();
+
+                for (int s = 0; s < scores.size(); s++) {
+                    if (s != i) {
+                        otherScores.add(scores.get(s));
+                    }
+                }
 
                 if (players.get(i).wantsToRoll(scores.get(i), handScore, otherScores, winningScore)) {
                     int firstRoll = roll();
@@ -24,6 +31,7 @@ public class PassThePigs {
 
                     if (firstRoll == secondRoll) {
                         handScore += scoreMatrix[firstRoll][2];
+                        i--; // gives another chance to player
                     } else if ((firstRoll == 1 && secondRoll == 2) || (firstRoll == 2 && secondRoll == 1)) {
                         handScore = 0;
                         System.out.println("Pig Out!");
@@ -33,9 +41,11 @@ public class PassThePigs {
                         } else {
                             handScore += scoreMatrix[secondRoll][0];
                         }
+                        i--; // gives another chance to player
                     }
                 } else {
-                    handScore = 0;
+                    scores.set(i, scores.get(i) + handScore);
+                    handScore = 0; // resets handscore for next person
                 }
             }
 
@@ -43,7 +53,7 @@ public class PassThePigs {
     }
 
     public static int roll() {
-        int type = 0;
+        int type;
         double roll = Math.random() * 100;
 
 
