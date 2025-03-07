@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class PassThePigs {
@@ -38,7 +39,6 @@ public class PassThePigs {
                 }
 
                 // round
-
                 if (players.get(i).wantsToRoll(scores.get(i), handScore, otherScores, winningScore)) {
 
                     int roundScore = rollPigs();
@@ -118,6 +118,7 @@ public class PassThePigs {
 
         return score;
     }
+
     public static boolean checkWinCondition(int score) {
         if (score >= winningScore) {
             return false;
@@ -126,7 +127,7 @@ public class PassThePigs {
         return true;
     }
 
-    public static void goodGame(){
+    public static void goodGame() {
         System.out.println();
         System.out.println("---------------------------------------");
         System.out.println();

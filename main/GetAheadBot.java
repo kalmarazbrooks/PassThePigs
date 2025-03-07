@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 class GetAheadBot extends Bot {
@@ -6,6 +7,7 @@ class GetAheadBot extends Bot {
         super(name);
         super.setStrategy("This bot just tries to get ahead!");
     }
+
     public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
         if (handScore < 5) {
             return true;
