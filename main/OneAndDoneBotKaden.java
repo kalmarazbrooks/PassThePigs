@@ -1,9 +1,9 @@
 
 import java.util.ArrayList;
 
-class OneAndDoneBot extends Bot {
+class OneAndDoneBotKaden extends Bot {
 
-    public OneAndDoneBot(String name) {
+    public OneAndDoneBotKaden(String name) {
         super(name);
         super.setStrategy("One step at a time...");
     }

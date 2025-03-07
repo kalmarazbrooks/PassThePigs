@@ -22,9 +22,9 @@ public class PassThePigs {
     }
 
     public static void setup() { // Hard Code new bots + players
-        players.add(new GetAheadBot("GetAhead"));
-        players.add(new RiskItAllBot("RiskIt"));
-        players.add(new OneAndDoneBot("OneAndDone"));
+        players.add(new GetAheadBotKaden("GetAhead"));
+        players.add(new RiskItAllBotKaden("RiskIt"));
+        players.add(new OneAndDoneBotKaden("OneAndDone"));
         players.add(new Human("You"));
 
         for (Player player : players) {
